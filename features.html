@@ -1,143 +1,82 @@
-<!DOCTYPE html>
-<html data-bs-theme="auto" lang="en">
+<!DOCTYPE html><html data-bs-theme="auto" lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"><title>DeviceABLE—Computer control without hands</title><link rel="canonical" href="https://deviceable.netlify.app/features.html"><meta property="og:url" content="https://deviceable.netlify.app/features.html"><meta name="twitter:description" content="This FREE apps lets you control your Windows device without having to use your hands. Download the app now, it's free!"><meta property="og:description" content="This FREE apps lets you control your Windows device without having to use your hands. Download the app now, it's free!"><meta name="twitter:card" content="summary"><meta property="og:image" content="https://deviceable.netlify.app/assets/img/handless-computer-control_icon.png"><meta name="description" content="This FREE apps lets you control your Windows device without having to use your hands. Download the app now, it's free!"><meta property="og:type" content="website"><meta name="twitter:image" content="https://deviceable.netlify.app/assets/img/handless-computer-control_icon.png"><meta property="og:title" content="DeviceABLE—Computer control without hands"><meta name="twitter:title" content="DeviceABLE—Computer control without hands">
+			<script>
+(function() {
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>DeviceABLE—Computer control without hands</title>
-    <link rel="canonical" href="https://deviceable.netlify.app/features.html">
-    <meta property="og:url" content="https://deviceable.netlify.app/features.html">
-    <meta name="twitter:description" content="This FREE apps lets you control your Windows device without having to use your hands. Download the app now, it's free!">
-    <meta property="og:description" content="This FREE apps lets you control your Windows device without having to use your hands. Download the app now, it's free!">
-    <meta name="twitter:card" content="summary">
-    <meta property="og:image" content="https://deviceable.netlify.app/assets/img/handless-computer-control_icon.png">
-    <meta name="description" content="This FREE apps lets you control your Windows device without having to use your hands. Download the app now, it's free!">
-    <meta property="og:type" content="website">
-    <meta name="twitter:image" content="https://deviceable.netlify.app/assets/img/handless-computer-control_icon.png">
-    <meta property="og:title" content="DeviceABLE—Computer control without hands">
-    <meta name="twitter:title" content="DeviceABLE—Computer control without hands">
-    <script>
-        (function() {
+	// JavaScript snippet handling Dark/Light mode switching
 
-            // JavaScript snippet handling Dark/Light mode switching
+	const getStoredTheme = () => localStorage.getItem('theme');
+	const setStoredTheme = theme => localStorage.setItem('theme', theme);
+	const forcedTheme = document.documentElement.getAttribute('data-bss-forced-theme');
 
-            const getStoredTheme = () => localStorage.getItem('theme');
-            const setStoredTheme = theme => localStorage.setItem('theme', theme);
-            const forcedTheme = document.documentElement.getAttribute('data-bss-forced-theme');
+	const getPreferredTheme = () => {
 
-            const getPreferredTheme = () => {
+		if (forcedTheme) return forcedTheme;
 
-                if (forcedTheme) return forcedTheme;
+		const storedTheme = getStoredTheme();
+		if (storedTheme) {
+			return storedTheme;
+		}
 
-                const storedTheme = getStoredTheme();
-                if (storedTheme) {
-                    return storedTheme;
-                }
+		const pageTheme = document.documentElement.getAttribute('data-bs-theme');
 
-                const pageTheme = document.documentElement.getAttribute('data-bs-theme');
+		if (pageTheme) {
+			return pageTheme;
+		}
 
-                if (pageTheme) {
-                    return pageTheme;
-                }
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	}
 
-                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
+	const setTheme = theme => {
+		if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			document.documentElement.setAttribute('data-bs-theme', 'dark');
+		} else {
+			document.documentElement.setAttribute('data-bs-theme', theme);
+		}
+	}
 
-            const setTheme = theme => {
-                if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.setAttribute('data-bs-theme', 'dark');
-                } else {
-                    document.documentElement.setAttribute('data-bs-theme', theme);
-                }
-            }
+	setTheme(getPreferredTheme());
 
-            setTheme(getPreferredTheme());
+	const showActiveTheme = (theme, focus = false) => {
+		const themeSwitchers = [].slice.call(document.querySelectorAll('.theme-switcher'));
 
-            const showActiveTheme = (theme, focus = false) => {
-                const themeSwitchers = [].slice.call(document.querySelectorAll('.theme-switcher'));
+		if (!themeSwitchers.length) return;
 
-                if (!themeSwitchers.length) return;
+		document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+			element.classList.remove('active');
+			element.setAttribute('aria-pressed', 'false');
+		});
 
-                document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
-                    element.classList.remove('active');
-                    element.setAttribute('aria-pressed', 'false');
-                });
+		for (const themeSwitcher of themeSwitchers) {
 
-                for (const themeSwitcher of themeSwitchers) {
+			const btnToActivate = themeSwitcher.querySelector('[data-bs-theme-value="' + theme + '"]');
 
-                    const btnToActivate = themeSwitcher.querySelector('[data-bs-theme-value="' + theme + '"]');
+			if (btnToActivate) {
+				btnToActivate.classList.add('active');
+				btnToActivate.setAttribute('aria-pressed', 'true');
+			}
+		}
+	}
 
-                    if (btnToActivate) {
-                        btnToActivate.classList.add('active');
-                        btnToActivate.setAttribute('aria-pressed', 'true');
-                    }
-                }
-            }
+	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+		const storedTheme = getStoredTheme();
+		if (storedTheme !== 'light' && storedTheme !== 'dark') {
+			setTheme(getPreferredTheme());
+		}
+	});
 
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                const storedTheme = getStoredTheme();
-                if (storedTheme !== 'light' && storedTheme !== 'dark') {
-                    setTheme(getPreferredTheme());
-                }
-            });
+	window.addEventListener('DOMContentLoaded', () => {
+		showActiveTheme(getPreferredTheme());
 
-            window.addEventListener('DOMContentLoaded', () => {
-                showActiveTheme(getPreferredTheme());
-
-                document.querySelectorAll('[data-bs-theme-value]')
-                    .forEach(toggle => {
-                        toggle.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            const theme = toggle.getAttribute('data-bs-theme-value');
-                            setStoredTheme(theme);
-                            setTheme(theme);
-                            showActiveTheme(theme);
-                        })
-                    })
-            });
-        })();
-    </script>
-    <link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f">
-    <link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f">
-    <link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f">
-    <link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f">
-    <link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f">
-    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=45f656e90268a8aa56e9a306f2ed622f">
-    <link rel="stylesheet" href="/assets/css/Lato.css?h=d666272328baa696e6e163dd09225fb4">
-    <link rel="stylesheet" href="/assets/css/Animated-Type-Heading-BS5.css?h=d8bfcd18f36908a172ff831ce531bdbb">
-    <link rel="stylesheet" href="/assets/css/Banner-Heading-Image-images.css?h=4f3cfa46e40e236365345fc77963f4b8">
-    <link rel="stylesheet" href="/assets/css/Footer-with-social-media-icons.css?h=82dd07820d3d18340560bd17acc678fe">
-    <link rel="stylesheet" href="/assets/css/Navbar-Centered-Brand-Dark-icons.css?h=befd8a398792e305b7ffd4a176b5b585">
-    <link rel="stylesheet" href="/assets/css/Typewriter-Effect---BS5.css?h=9a30f017208e9271d98bdedec66b2fd0">
-</head>
-
-<body>
-    <!-- Start: Navbar Right Links (Dark) -->
-    <nav class="navbar navbar-expand-md bg-dark py-3" data-bs-theme="dark">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/index.html"><img height="40" src="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f" width="40"><span style="padding-left: 10px;">DeviceABLE</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-5">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/features.html">Features</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
-                </ul><a class="btn btn-primary ms-md-2" role="button" href="/downloads.html">Windows Download</a>
-            </div>
-        </div>
-    </nav><!-- End: Navbar Right Links (Dark) -->
-    <!-- Start: Footer with social media icons -->
-    <footer id="footerpad">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-lg-8 mx-auto">
-                    <p class="copyright text-muted text-center">Copyright © DeviceABLE 2023</p>
-                </div>
-            </div>
-        </div>
-    </footer><!-- End: Footer with social media icons -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/bs-init.js?h=ec5d4df3c798a2943b2ecbac76ebfde0"></script>
-    <script src="/assets/js/Animated-Type-Heading-BS5-Animated-Type-Heading.js?h=fed7589236915fb78af1c66e40855967"></script>
-    <script src="/assets/js/Typewriter-Effect---BS5-typingAnimation-1.js?h=2ec7cdae1c2059f36011e86d0debfcec"></script>
-</body>
-
-</html>
+		document.querySelectorAll('[data-bs-theme-value]')
+			.forEach(toggle => {
+				toggle.addEventListener('click', (e) => {
+					e.preventDefault();
+					const theme = toggle.getAttribute('data-bs-theme-value');
+					setStoredTheme(theme);
+					setTheme(theme);
+					showActiveTheme(theme);
+				})
+			})
+	});
+})();
+</script><link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f"><link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f"><link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f"><link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f"><link rel="icon" type="image/png" sizes="500x500" href="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f"><link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=45f656e90268a8aa56e9a306f2ed622f"><link rel="stylesheet" href="/assets/css/styles.min.css?h=9f837cf17f7c750a34d7cb6d43c0f4c5"></head><body><!-- Start: Navbar Right Links (Dark) --><nav class="navbar navbar-expand-md bg-dark py-3" data-bs-theme="dark"><div class="container"><a class="navbar-brand d-flex align-items-center" href="/index.html"><img height="40" src="/assets/img/handless-computer-control_icon.png?h=7ae8c7b83fc47f65445401e4e285bf4f" width="40"><span style="padding-left: 10px;">DeviceABLE</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navcol-5"><ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link" href="/features.html">Features</a></li><li class="nav-item"><a class="nav-link" href="/about.html">About</a></li><li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li></ul><a class="btn btn-primary ms-md-2" role="button" href="/downloads.html">Windows Download</a></div></div></nav><!-- End: Navbar Right Links (Dark) --><!-- Start: Footer with social media icons --><footer id="footerpad"><div class="container"><div class="row"><div class="col-md-6 col-lg-8 mx-auto"><p class="copyright text-muted text-center">Copyright © DeviceABLE 2023</p></div></div></div></footer><!-- End: Footer with social media icons --><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script><script src="/assets/js/script.min.js?h=cbe0336629a88afb17e9aeff1c51aa4a"></script></body></html>
